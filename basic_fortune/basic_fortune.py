@@ -17,8 +17,15 @@ def fortune():
    The fortune selected from the list of possibilities depends on the
    length of the name or string that a user inputs.
    """
-   username = raw_input('what is your name?')
+   username = raw_input('what is your name? ')
+   if username.isalpha() and "~!@#$%^&*(){}[]\"\',./?`" not in username:
+      username.lower()
+   else:
+	   error =  "name contains invalid chars"
+	   return error
    fortuner = ['you will soon get a big surprise', 'happiness will soon find you', 'things are looking up', 'a wish that you made in the past is about to come true', 'you will be greeted with a gift in the near future', 'the sky will fall on you tomorrow']
-   print fortuner[(len(username)-1)%len(fortuner)]
+   return fortuner[(len(username)-1)%len(fortuner)]
 
-fortune()
+if __name__=="__main__":
+   
+   print fortune()
