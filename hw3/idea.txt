@@ -1,9 +1,0 @@
-analyze cumulative sentiment of key words in posts for different criteria such as:
--country
--state
--gender
--age
--ethnicity
--ethnicity and country 
--number of facebook friends
-
