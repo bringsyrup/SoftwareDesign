@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+#! /bin/env python
 """
 Created on Sun Feb  9 17:52:54 2014
 

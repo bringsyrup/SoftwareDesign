@@ -1,3 +1,4 @@
+#! /bin/env python
 """
 webfortune.py
 date created: 2014 September 18
@@ -19,6 +20,7 @@ import re
 def scrape():
     """Uses Pattern's URL download function to pull HTML code from the website listed below"""
     random_50_fortunes = plaintext(URL('http://www.fortunecookiemessage.com/archive.php?start='+str(randint(0,16)*50)).download())
+    print random_50_fortunes
     #creates a list from the large plaintext grab, making new list entries for each newline in the page
     fortune_list = random_50_fortunes.split('\n\n')
 
