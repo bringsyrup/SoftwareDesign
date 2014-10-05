@@ -116,7 +116,6 @@ def map_colors():
         for j in range(new.size[1]):
             x = i/15. - 10.
             y = j/15. - 10.
-            print x
             res0 = evaluate(func0, x, y)
             res1 = evaluate(func1, x, y) #comment out for coloration based on one function
             res2 = evaluate(func2, x, y) #comment out for coloration based on one function
