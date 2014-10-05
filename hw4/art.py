@@ -87,9 +87,9 @@ def evaluate(function, x, y):
     exec function
     return res
 
-def map_colors(layer):
+def map_colors():
     '''
-    get x, y, and eval points from get_func() function and assigns them a color based on ...value?
+    map generated function/s to rgb colors and plot them in a png
     '''
     xaxis = np.linspace(-10, 10, 300)
     yaxis = np.linspace(-10, 10, 300)
@@ -98,14 +98,14 @@ def map_colors(layer):
     res_grid0 = evaluate(func0, xg, yg)
     raw_min0 = np.min(res_grid0)
     raw_max0 = np.max(res_grid0)
-    func1 = get_func(5, 30)
-    res_grid1 = evaluate(func1, xg, yg)
-    raw_min1 = np.min(res_grid1)
-    raw_max1 = np.max(res_grid1)
-    func2 = get_func(75, 100)
-    res_grid2 = evaluate(func2, xg, yg)
-    raw_min2 = np.min(res_grid2)
-    raw_max2 = np.max(res_grid2)
+    func1 = get_func(5, 30) #comment out ...
+    res_grid1 = evaluate(func1, xg, yg) # ...
+    raw_min1 = np.min(res_grid1) # ...
+    raw_max1 = np.max(res_grid1) # ...
+    func2 = get_func(75, 100) # ...
+    res_grid2 = evaluate(func2, xg, yg) # ...
+    raw_min2 = np.min(res_grid2) # ...
+    raw_max2 = np.max(res_grid2) # ... for coloration based on one function
     color = (
             randint(0, 255),
             randint(0, 255),
@@ -119,19 +119,19 @@ def map_colors(layer):
             y = j/15. - 10.
             print x
             res0 = evaluate(func0, x, y)
-            res1 = evaluate(func1, x, y)
-            res2 = evaluate(func2, x, y)
+            res1 = evaluate(func1, x, y) #comment out for coloration based on one function
+            res2 = evaluate(func2, x, y) #comment out for coloration based on one function
             color_remap = (
                     int(color[0]*(res0 - raw_min0)/(raw_max0 - raw_min0)),
                     int(color[1]*(res1 - raw_min1)/(raw_max1 - raw_min1)),
                     int(color[2]*(res2 - raw_min2)/(raw_max2 - raw_min2))
                     )
-            #color_remap = tuple([int(color[n]*(res - raw_min)/(raw_max - raw_min)) for n in range(len(color))])
+            #color_remap = tuple([int(color[n]*(res0 - raw_min0)/(raw_max0 - raw_min0)) for n in range(len(color))]) #use this instead of above for coloration based on one function
             new_img[i, j] = color_remap
-    new.save("new_img" + str(layer) + ".png")
+    new.save("new_img.png")
     new.show()
-    return new
+    return 
 
 
 if __name__=="__main__":
-    map_colors(1)
+    map_colors()
