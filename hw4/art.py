@@ -10,15 +10,13 @@ import re
 import numpy as np
 import Image as img
 
-rand_func = []
-
 def random_list(n):
     rand_list = []
     for i in range(n):
         rand_list.append(randint(0, n))
     return rand_list
 
-def random_func(recurs):
+def random_func(recurs, rand_func):
     '''
     recursive function that produces a random function because as we all know the best art takes no thought at all. you think I'm kidding.
     '''
@@ -69,13 +67,14 @@ def random_func(recurs):
                     paren_count += 1
         return func_str
     else:
-        return random_func(recurs - 1)
+        return random_func(recurs - 1, rand_func)
 
 def get_func(lower, upper):
     '''
     get_func function generated from random_func()
     '''
-    func = random_func(randint(lower, upper))
+    rand_func = []
+    func = random_func(randint(lower, upper), rand_func)
     print func
     return func 
 
