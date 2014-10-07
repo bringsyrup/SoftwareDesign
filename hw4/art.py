@@ -18,7 +18,7 @@ def random_list(n):
 
 def random_func(recurs, rand_func):
     '''
-    recursive function that produces a random function because as we all know the best art takes no thought at all. you think I'm kidding.
+    recursive random_function that produces a random function because as we all know the best art takes no thought at all. you think I'm kidding.
     '''
     options = ["x", "y", "np.sin", "np.cos", "pi"]
     rand_func.append(options[randint(0, len(options)-1)])
@@ -40,7 +40,10 @@ def random_func(recurs, rand_func):
                         func_str += "(" + final[randint(0, len(final)-1)] + ")"*(paren_count+1)
                 else:
                     final = ["x", "y", "pi"]
-                    func_str += "(" + final[randint(0, len(final)-1)] + ")"*(paren_count+1)
+                    if func_str[-3:] not in ["sin", "cos"]:
+                        func_str += operands[randint(0, len(operands)-1)] + final[randint(0, len(final)-1)] + ")"*(paren_count)
+                    else: 
+                        func_str += "(" + final[randint(0, len(final)-1)] + ")"*(paren_count+1)
                 final_count = len(re.findall('[(]', func_str)) - len(re.findall('[)]', func_str))
             elif i in random_list(i) and func_str[-3:] not in ["sin", "cos"] and paren_count > 0:
                 func_str += ")"
@@ -71,27 +74,27 @@ def random_func(recurs, rand_func):
 
 def get_func(lower, upper):
     '''
-    get_func function generated from random_func()
+    get_func random_function generated from random_func()
     '''
     rand_func = []
     func = random_func(randint(lower, upper), rand_func)
     print func
     return func 
 
-def evaluate(function, x, y):
+def evaluate(random_function, x, y):
     '''
     evaluate frunction from get_func when called from another source such as map_colors
-    avoids generating a new function every time you want to execute, so you can call this function multiple times for the same random function
+    avoids generating a new random_function every time you want to execute, so you can call this function multiple times for the same random function
     '''
-    exec function
+    exec random_function
     return res
 
 def map_colors():
     '''
-    map generated function/s to rgb colors and plot them in a png
+    map generated random_function/s to rgb colors and plot them in a png
     '''
-    xaxis = np.linspace(-10, 10, 300)
-    yaxis = np.linspace(-10, 10, 300)
+    xaxis = np.linspace(-10, 10, 366)
+    yaxis = np.linspace(-10, 10, 200)
     xg, yg = np.meshgrid(xaxis, yaxis)
     func0 = get_func(40, 65)
     res_grid0 = evaluate(func0, xg, yg)
@@ -104,27 +107,27 @@ def map_colors():
     func2 = get_func(75, 100) # ...
     res_grid2 = evaluate(func2, xg, yg) # ...
     raw_min2 = np.min(res_grid2) # ...
-    raw_max2 = np.max(res_grid2) # ... for coloration based on one function
+    raw_max2 = np.max(res_grid2) # ... for coloration based on one random_function
     color = (
             randint(0, 255),
             randint(0, 255),
             randint(0, 255)
             )
-    new = img.new('RGB', (300, 300))
+    new = img.new('RGB', (366, 200))
     new_img = new.load()
     for i in range(new.size[0]):
         for j in range(new.size[1]):
             x = i/15. - 10.
-            y = j/15. - 10.
+            y = j/10. - 10.
             res0 = evaluate(func0, x, y)
-            res1 = evaluate(func1, x, y) #comment out for coloration based on one function
-            res2 = evaluate(func2, x, y) #comment out for coloration based on one function
+            res1 = evaluate(func1, x, y) #comment out for coloration based on one random_function
+            res2 = evaluate(func2, x, y) #comment out for coloration based on one random_function
             color_remap = (
                     int(color[0]*(res0 - raw_min0)/(raw_max0 - raw_min0)),
                     int(color[1]*(res1 - raw_min1)/(raw_max1 - raw_min1)),
                     int(color[2]*(res2 - raw_min2)/(raw_max2 - raw_min2))
                     )
-            #color_remap = tuple([int(color[n]*(res0 - raw_min0)/(raw_max0 - raw_min0)) for n in range(len(color))]) #use this instead of above for coloration based on one function
+            #color_remap = tuple([int(color[n]*(res0 - raw_min0)/(raw_max0 - raw_min0)) for n in range(len(color))]) #use this instead of above for coloration based on one random_function
             new_img[i, j] = color_remap
     new.save("new_img.png")
     new.show()
