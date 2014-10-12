@@ -10,6 +10,7 @@ import pygame as pg
 from math import pi
 import sys
 from pygame.locals import *
+import buttActions as butts
 
 try:
     from pygame import gfxdraw
@@ -26,8 +27,8 @@ class Button(pg.sprite.Sprite):
         self.location = location    # location as list ex. [dims[0]/2, dims[1]-50] 
         self.text = text[0]         # raw text to go in button
         self.fontsize = text[1]     # fontsize
-        self.fill = colors[0]     # first item in colors list
-        self.border = colors[1]       # second item in colors list
+        self.fill = colors[0]       # first item in colors list
+        self.border = colors[1]     # second item in colors list
         self.textColor = colors[2]
         self.font = pg.font.SysFont('Arial', self.fontsize)   # text[1] is fontsize
 
@@ -38,11 +39,10 @@ class Button(pg.sprite.Sprite):
         y_txt = self.location[1] + .5*(self.size[1] - y_len)
         return (x_txt, y_txt)
 
-    def liveButton(self):
-        press = pg.mouse.get_pressed()
+    def liveButton(self, buttNumb):
         pos = pg.mouse.get_pos()
         if pos[0] >= self.location[0] and pos[1] >= self.location[1] and pos[0] <= (self.location[0] + self.size[0]) and pos[1] <= (self.location[1] + self.size[1]):
-            print "new game!"
+            butts.buttAction(buttNumb)
         return self.staticButton()
 
     def staticButton(self):
@@ -79,7 +79,7 @@ class Button(pg.sprite.Sprite):
                 )
         return fill, border, text
 
-def init(dims=(1600, 875), fillColor=(255,255,255), circBorder=(200,200,230), layers=4):
+def init(dims=(1600, 875), fillColor=(255,255,255), circBorder=(200,200,230), layers=4, buttCheck=False):
     """
     initial game setup
     """
@@ -100,7 +100,16 @@ def init(dims=(1600, 875), fillColor=(255,255,255), circBorder=(200,200,230), la
                 ["new game", 20],
                 [(210, 210, 255), (200, 200, 230), (0, 0, 0)]
                 )
-    fillNG, borderNG, textNG = newGame.liveButton() 
+    fillNG, borderNG, textNG = newGame.staticButton() 
+    '''make PAUSE dynamic button'''
+    pause = Button(
+                screen,
+                [100, 50],
+                [dims[0]/4-100, dims[1]-75],
+                ["pause", 20],
+                [(230, 210, 210), (230, 100, 100), (0, 0, 0)]
+                )
+    fillPS, borderPS, textPS = pause.staticButton() 
     '''make HIGH SCORE static button'''
     highScore = Button(
                 screen,
@@ -111,8 +120,11 @@ def init(dims=(1600, 875), fillColor=(255,255,255), circBorder=(200,200,230), la
                 )
     fillHS, borderHS, textHS = highScore.staticButton()
     pg.display.flip()
-    pg.display.update((fillNG, borderNG, textNG, fillHS, borderHS, fillHS))
-    return screen
+    pg.display.update((fillNG, borderNG, textNG, fillHS, borderHS, textHS, fillPS, borderPS, textPS))
+    if buttCheck == False:
+        return screen
+    else:
+        return [newGame, pause]
         
 def main():
     """
@@ -131,9 +143,11 @@ def main():
                sys.exit()
             elif event.type == VIDEORESIZE:
                 screen = init(dims=(event.w, event.h))
-            elif event.type == pg.MOUSEBUTTONUP:
+            elif event.type == MOUSEBUTTONUP:
                 screenSize = screen.get_size()
-                screen = init(dims=screenSize)
+                butts = init(dims=screenSize, buttCheck=True)
+                for i, butt in enumerate(butts):
+                    butt.liveButton(i)
         pg.display.update()
         counter += 1
                
