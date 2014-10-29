@@ -6,9 +6,8 @@ static buttons are just rectangles
 """
 
 import pygame as pg
-from buttActions import buttAction
 
-class Button(pg.sprite.Sprite):
+class Button(object):
     """
     button creator!
     """
@@ -24,6 +23,7 @@ class Button(pg.sprite.Sprite):
         self.font = pg.font.SysFont('Arial', self.fontsize)   # text[1] is fontsize
 
     def getText(self):
+        """ adding text to buttons and placing in center"""
         x_len = .55*self.fontsize*len(self.text)
         y_len = self.fontsize
         x_txt = self.location[0] + .5*(self.size[0] - x_len)
@@ -33,7 +33,7 @@ class Button(pg.sprite.Sprite):
     def liveButton(self, buttNumb):
         pos = pg.mouse.get_pos()
         if pos[0] >= self.location[0] and pos[1] >= self.location[1] and pos[0] <= (self.location[0] + self.size[0]) and pos[1] <= (self.location[1] + self.size[1]):
-            buttAction(buttNumb)
+            return buttNumb
         return self.staticButton()
 
     def staticButton(self):
@@ -60,6 +60,7 @@ class Button(pg.sprite.Sprite):
                     ),
                 3
                 )
+        """placing text"""
         textLocation = self.getText()
         text = self.surf.blit(
                 self.font.render(self.text,
@@ -68,6 +69,6 @@ class Button(pg.sprite.Sprite):
                     ),
                 textLocation
                 )
-        return fill, border, text
+        return (fill, border, text)
 
 
