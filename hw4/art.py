@@ -8,7 +8,8 @@ from random import randint
 from math import pi
 import re
 import numpy as np
-import Image as img
+from PIL import Image as img
+#import Image as img
 
 def random_list(n):
     rand_list = []
@@ -129,7 +130,7 @@ def map_colors():
                     )
             #color_remap = tuple([int(color[n]*(res0 - raw_min0)/(raw_max0 - raw_min0)) for n in range(len(color))]) #use this instead of above for coloration based on one random_function
             new_img[i, j] = color_remap
-    new.save("new_img.png")
+    new.save("new_img.PNG")
     new.show()
     return 
 
